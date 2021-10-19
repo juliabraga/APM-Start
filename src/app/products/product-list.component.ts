@@ -1,17 +1,32 @@
 import { Component } from "@angular/core";
+import { IProduct } from "./product";
 
 @Component({
     selector: 'pm-products',
-    templateUrl: './product-list.component.html'
+    templateUrl: './product-list.component.html',
+    styleUrls: ['./product-list.component.css']
 })
 
 export class ProductListComponent {
-    listFilter: string = '';
+    private _listFilter:string = '';
+    get listFilter():string{
+      return this._listFilter; 
+    }
+    set listFilter(value:string){
+      this._listFilter = value;
+      console.log('In setter: ', value);
+      this.FilteredProducts = this.performFilter(value);
+    }
+
     pageTitle: string = 'Product List';
     imageWidth: number = 50;
     imageMargin: number = 2;
+    textAlign: string = 'center';
     showImage: boolean = false;
-    products: any[] = [
+
+
+    FilteredProducts: IProduct[] = [];
+    products: IProduct[] = [
         {
           "productId": 1,
           "productName": "Leaf Rake",
@@ -66,5 +81,14 @@ export class ProductListComponent {
       toggleImage(): void {
         this.showImage = !this.showImage;
       }
-
+      
+      performFilter(filterBy:string): IProduct[]{
+        filterBy = filterBy.toLocaleLowerCase();
+        return this.products.filter((product: IProduct) =>
+        product.productName.toLocaleLowerCase().includes(filterBy));
+      }
+      
+      ngOnInit(): void{
+        this._listFilter = 'ca'
+      }
     }
