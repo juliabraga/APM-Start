@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { IProduct } from "./product";
 
 @Component({
@@ -7,7 +7,7 @@ import { IProduct } from "./product";
     styleUrls: ['./product-list.component.css']
 })
 
-export class ProductListComponent {
+export class ProductListComponent implements OnInit {
     private _listFilter:string = '';
     get listFilter():string{
       return this._listFilter; 
@@ -89,6 +89,6 @@ export class ProductListComponent {
       }
       
       ngOnInit(): void{
-        this._listFilter = 'ca'
+        this.listFilter = '';
       }
     }
